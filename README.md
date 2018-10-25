@@ -54,6 +54,7 @@ install docker:
 https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1
 install nvidia-docker:
 https://github.com/NVIDIA/nvidia-docker
+sudo usermod -aG docker sadjad
 cd $DENSEPOSE/docker  
 docker build -t densepose:c2-cuda9-cudnn7 .  
 

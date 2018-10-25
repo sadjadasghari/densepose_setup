@@ -19,6 +19,8 @@ wget https://storage.googleapis.com/coco-dataset/external/PASCAL_VOC.zip
 
 #### images
 cd path/to/coco/  
+install gsutil:
+https://cloud.google.com/storage/docs/gsutil_install
 mkdir val2014 && gsutil -m rsync gs://images.cocodataset.org/val2014 val2014  
 mkdir train2014 && gsutil -m rsync gs://images.cocodataset.org/train2014 train2014  
 

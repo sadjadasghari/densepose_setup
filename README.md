@@ -68,7 +68,7 @@ nvidia-docker run --rm -it densepose:c2-cuda9-cudnn7 python2 detectron/tests/tes
 nvidia-docker run -v $DENSEPOSE/DensePoseData:/denseposedata -v /home/austin/coco:/coco -it densepose:c2-cuda9-cudnn7 bash  
 mv /densepose/DensePoseData /densepose/DensePoseDataLocal  
 ln -s /denseposedata DensePoseData  
-ln -s /path/to/coco/ /densepose/detectron/datasets/data/coco  
+ln -s /coco /densepose/detectron/datasets/data/coco  
 
 ln -s /densepose/DensePoseData/DensePose_COCO/densepose_coco_2014_minival.json /densepose/detectron/datasets/data/coco/annotations/  
 ln -s /densepose/DensePoseData/DensePose_COCO/densepose_coco_2014_train.json /densepose/detectron/datasets/data/coco/annotations/  

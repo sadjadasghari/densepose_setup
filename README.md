@@ -42,7 +42,7 @@ mkdir train2014 && gsutil -m rsync gs://images.cocodataset.org/train2014 train20
 ## Step 2: Set up DensePose
 
 ### get densepose
-DENSEPOSE=/home/austin/densepose  
+DENSEPOSE=~/workspace/DensePose  
 git clone https://github.com/facebookresearch/densepose $DENSEPOSE  
 
 ### get densepose annotations
@@ -65,7 +65,7 @@ nvidia-docker run --rm -it densepose:c2-cuda9-cudnn7 python2 detectron/tests/tes
 ### modify docker
 
 #### enter container
-nvidia-docker run -v $DENSEPOSE/DensePoseData:/denseposedata -v /home/austin/coco:/coco -it densepose:c2-cuda9-cudnn7 bash  
+nvidia-docker run -v $DENSEPOSE/DensePoseData:/denseposedata -v /data/Sadjad/Datasets/coco:/coco -it densepose:c2-cuda9-cudnn7 bash  
 mv /densepose/DensePoseData /densepose/DensePoseDataLocal  
 ln -s /denseposedata DensePoseData  
 ln -s /coco /densepose/detectron/datasets/data/coco  
@@ -81,16 +81,16 @@ docker commit $(docker ps --last 1 -q) densepose:c2-cuda9-cudnn7-wdata
 
 
 ## Part 3: Run inference/testing/training commands
-`nvidia-docker run --rm -v $DENSEPOSE/DensePoseData:/denseposedata -v /home/austin/coco:/coco -it densepose:c2-cuda9-cudnn7-wdata <inference_or_training_command>`
+`nvidia-docker run --rm -v $DENSEPOSE/DensePoseData:/denseposedata -v /data/Sadjad/Datasets/coco:/coco -it densepose:c2-cuda9-cudnn7-wdata <inference_or_training_command>`
 
 
 #### testing
-nvidia-docker run --rm -v $DENSEPOSE/DensePoseData:/denseposedata -v /home/austin/coco:/coco -it densepose:c2-cuda9-cudnn7-wdata python2 tools/test_net.py --cfg configs/DensePose_ResNet101_FPN_s1x-e2e.yaml TEST.WEIGHTS https://s3.amazonaws.com/densepose/DensePose_ResNet101_FPN_s1x-e2e.pkl NUM_GPUS 1
+nvidia-docker run --rm -v $DENSEPOSE/DensePoseData:/denseposedata -v /data/Sadjad/Datasets/coco:/coco -it densepose:c2-cuda9-cudnn7-wdata python2 tools/test_net.py --cfg configs/DensePose_ResNet101_FPN_s1x-e2e.yaml TEST.WEIGHTS https://s3.amazonaws.com/densepose/DensePose_ResNet101_FPN_s1x-e2e.pkl NUM_GPUS 1
 
 #### inference
 
 ##### Single image inference on demo data
-nvidia-docker run --rm -v $DENSEPOSE/DensePoseData:/denseposedata -v /home/austin/coco:/coco -it densepose:c2-cuda9-cudnn7-wdata \
+nvidia-docker run --rm -v $DENSEPOSE/DensePoseData:/denseposedata -v /data/Sadjad/Datasets/coco:/coco -it densepose:c2-cuda9-cudnn7-wdata \
 python2 tools/infer_simple.py \
     --cfg configs/DensePose_ResNet101_FPN_s1x-e2e.yaml \
     --output-dir DensePoseData/infer_out/ \
@@ -99,7 +99,7 @@ python2 tools/infer_simple.py \
     DensePoseData/demo_data/demo_im.jpg
 
 ##### Multiple image inference on own data
-DENSEPOSE=/home/austin/densepose && nvidia-docker run -v $DENSEPOSE/DensePoseData:/denseposedata -v /home/austin/coco:/coco  -v /home/austin/data/densepose_mydata:/densepose_mydata -it -p 8888:8888 --name densepose densepose:c2-cuda9-cudnn7-wdata \
+DENSEPOSE=~/workspace/DensePose && nvidia-docker run -v $DENSEPOSE/DensePoseData:/denseposedata -v /data/Sadjad/Datasets/coco:/coco  -v /data/Sadjad/Datasets/densepose_mydata:/densepose_mydata -it -p 8888:8888 --name densepose densepose:c2-cuda9-cudnn7-wdata \
     python2 tools/infer_simple.py \
     --cfg configs/DensePose_ResNet101_FPN_s1x-e2e.yaml \
     --output-dir /densepose_mydata/infer_out/ \
